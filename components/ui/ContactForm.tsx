@@ -21,6 +21,8 @@ export default function ContactForm() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -28,9 +30,34 @@ export default function ContactForm() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = (await response.json()) as { ok: boolean; error?: string };
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error ?? "Failed to send message.");
+      }
+
+      setSubmitted(true);
+    } catch (submitError) {
+      setError(
+        submitError instanceof Error ? submitError.message : "Something went wrong.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -117,10 +144,16 @@ export default function ContactForm() {
 
       <button
         type="submit"
+        disabled={isSubmitting}
         className="w-full bg-muted-blue hover:bg-teal text-white py-3.5 rounded-lg font-semibold text-sm transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
       >
-        Send message
+        {isSubmitting ? "Sending..." : "Send message"}
       </button>
+      {error && (
+        <p role="alert" className="text-red-200 text-sm">
+          {error}
+        </p>
+      )}
     </form>
   );
 }
