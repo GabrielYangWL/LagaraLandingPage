@@ -1,7 +1,9 @@
 import SectionHeader from "@/components/ui/SectionHeader";
 import ProblemCard from "@/components/ui/ProblemCard";
 import FadeIn from "@/components/ui/FadeIn";
+import SectionTestimonial from "@/components/ui/SectionTestimonial";
 import { problems } from "@/data/problems";
+import { testimonialsBySection } from "@/data/testimonials";
 
 export default function Problem() {
   return (
@@ -20,6 +22,12 @@ export default function Problem() {
             capability building, leadership sponsorship, governance, and workflow integration
             working in concert.
           </p>
+          <p className="mt-4 max-w-3xl mx-auto text-center text-grey-text text-base leading-relaxed">
+            The organisations we work with rarely lack ambition or budget. They struggle with sequencing
+            — what to prove first — and with ownership: who is accountable for adoption outcomes when
+            delivery, risk, HR, and the business each see a different slice of the problem. Lagara helps
+            you name those gaps early and build a programme that survives contact with real operations.
+          </p>
         </FadeIn>
 
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -29,6 +37,10 @@ export default function Problem() {
             </FadeIn>
           ))}
         </div>
+
+        <FadeIn direction="up" delay={200} className="mt-16 max-w-3xl mx-auto">
+          <SectionTestimonial variant="on-light" {...testimonialsBySection.problem} />
+        </FadeIn>
       </div>
     </section>
   );

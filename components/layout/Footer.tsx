@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Mail } from "lucide-react";
 
 function LinkedinIcon({ className }: { className?: string }) {
@@ -11,19 +12,13 @@ function LinkedinIcon({ className }: { className?: string }) {
 }
 
 const footerLinks = [
-  { label: "Services", href: "#services" },
-  { label: "Approach", href: "#approach" },
-  { label: "Why Us", href: "#differentiators" },
-  { label: "Contact", href: "#contact" },
-];
+  { label: "Services", href: "/services" },
+  { label: "Approach", href: "/#approach" },
+  { label: "Why Us", href: "/#differentiators" },
+  { label: "Contact", href: "/#contact" },
+] as const;
 
 export default function Footer() {
-  const handleClick = (href: string) => {
-    const id = href.replace("#", "");
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <footer className="bg-charcoal">
       <div className="content-container px-6 py-14">
@@ -56,13 +51,12 @@ export default function Footer() {
             <ul className="flex flex-col gap-3">
               {footerLinks.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
-                    onClick={(e) => { e.preventDefault(); handleClick(link.href); }}
                     className="text-white/60 hover:text-white text-sm transition-colors focus-visible:ring-2 focus-visible:ring-muted-blue rounded px-1"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

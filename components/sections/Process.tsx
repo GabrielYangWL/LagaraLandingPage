@@ -1,7 +1,9 @@
 import SectionHeader from "@/components/ui/SectionHeader";
 import ProcessStepCard from "@/components/ui/ProcessStepCard";
 import FadeIn from "@/components/ui/FadeIn";
+import SectionTestimonial from "@/components/ui/SectionTestimonial";
 import { steps } from "@/data/process";
+import { testimonialsBySection } from "@/data/testimonials";
 
 export default function Process() {
   return (
@@ -12,6 +14,7 @@ export default function Process() {
             eyebrow="How we work"
             heading="A structured path from assessment to embedded change"
             align="center"
+            subheading="Our process is deliberately simple on the surface so it can flex inside complex enterprises. Assess and define prevent you from scaling the wrong thing; mobilise and embed ensure the organisation — not just the project team — carries the change forward."
           />
         </FadeIn>
 
@@ -46,6 +49,10 @@ export default function Process() {
             </FadeIn>
           ))}
         </div>
+
+        <FadeIn direction="up" delay={200} className="mt-16 max-w-3xl mx-auto">
+          <SectionTestimonial variant="on-light" {...testimonialsBySection.process} />
+        </FadeIn>
       </div>
     </section>
   );

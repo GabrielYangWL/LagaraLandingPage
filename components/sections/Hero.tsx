@@ -1,5 +1,7 @@
 import TrustStrip from "./TrustStrip";
 import FadeIn from "@/components/ui/FadeIn";
+import SectionTestimonial from "@/components/ui/SectionTestimonial";
+import { testimonialsBySection } from "@/data/testimonials";
 
 export default function Hero() {
   const handleCTAClick = (href: string) => {
@@ -25,8 +27,11 @@ export default function Hero() {
               </h1>
             </FadeIn>
             <FadeIn direction="up" delay={200}>
-              <p className="text-white/70 text-lg leading-relaxed mb-8 max-w-xl">
+              <p className="text-white/70 text-lg leading-relaxed mb-5 max-w-xl">
                 Lagara Partners helps organisations close the gap between AI investment and AI adoption. We combine strategy, change management, and execution capability to make AI work in the real enterprise — not just in the proof of concept.
+              </p>
+              <p className="text-white/60 text-base leading-relaxed mb-8 max-w-xl">
+                Whether you are selecting your first enterprise copilot, scaling from a successful pilot, or resetting after uneven uptake, we focus on the operating model, sponsorship, and team-level habits that determine whether tools become part of how work is done.
               </p>
             </FadeIn>
             <FadeIn direction="up" delay={300}>
@@ -102,6 +107,10 @@ export default function Hero() {
             </svg>
           </FadeIn>
         </div>
+
+        <FadeIn direction="up" delay={400} className="mt-16 md:mt-20">
+          <SectionTestimonial variant="on-dark" className="max-w-3xl" {...testimonialsBySection.hero} />
+        </FadeIn>
 
         <TrustStrip />
       </div>

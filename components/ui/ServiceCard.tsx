@@ -1,8 +1,12 @@
+import Link from "next/link";
 import type { Service } from "@/data/services";
 
-export default function ServiceCard({ title, description, bullets }: Service) {
+export default function ServiceCard({ slug, title, description, bullets }: Service) {
   return (
-    <div className="bg-off-white rounded-xl p-7 border border-slate-100 group hover:bg-navy hover:border-navy transition-all duration-300 cursor-default flex flex-col h-full">
+    <Link
+      href={`/services/${slug}`}
+      className="bg-off-white rounded-xl p-7 border border-slate-100 group hover:bg-navy hover:border-navy transition-all duration-300 cursor-pointer flex flex-col h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-muted-blue focus-visible:ring-offset-2"
+    >
       <div className="border-t-2 border-muted-blue mb-6 w-10" />
       <h3 className="text-navy group-hover:text-white font-semibold text-lg mb-3 transition-colors">
         {title}
@@ -21,6 +25,9 @@ export default function ServiceCard({ title, description, bullets }: Service) {
           </li>
         ))}
       </ul>
-    </div>
+      <p className="mt-5 text-sm font-medium text-muted-blue group-hover:text-teal transition-colors">
+        Learn more →
+      </p>
+    </Link>
   );
 }
