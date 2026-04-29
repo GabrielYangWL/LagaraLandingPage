@@ -68,22 +68,25 @@ async function ensureStorageFile() {
 }
 
 export async function storeContactSubmission(
-  data: ContactSubmissionInput,
-): Promise<StoredContactSubmission> {
+  submission: StoredContactSubmission,
+): Promise<void> {
   await ensureStorageFile();
-
-  const submission: StoredContactSubmission = {
-    ...data,
-    id: crypto.randomUUID(),
-    createdAt: new Date().toISOString(),
-  };
 
   const existingData = await fs.readFile(SUBMISSIONS_FILE, "utf-8");
   const submissions = JSON.parse(existingData) as StoredContactSubmission[];
   submissions.push(submission);
 
   await fs.writeFile(SUBMISSIONS_FILE, JSON.stringify(submissions, null, 2), "utf-8");
-  return submission;
+}
+
+export function buildStoredContactSubmission(
+  data: ContactSubmissionInput,
+): StoredContactSubmission {
+  return {
+    ...data,
+    id: crypto.randomUUID(),
+    createdAt: new Date().toISOString(),
+  };
 }
 
 export async function sendContactSubmissionEmail(submission: StoredContactSubmission) {

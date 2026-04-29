@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
+  buildStoredContactSubmission,
   sendContactSubmissionEmail,
   storeContactSubmission,
   validateContactSubmission,
@@ -29,8 +30,14 @@ export default async function handler(
   }
 
   try {
-    const submission = await storeContactSubmission(validation.data);
+    const submission = buildStoredContactSubmission(validation.data);
     await sendContactSubmissionEmail(submission);
+    // File storage is best-effort only for serverless deployments.
+    try {
+      await storeContactSubmission(submission);
+    } catch (storageError) {
+      console.warn("Contact submission email sent but storage failed:", storageError);
+    }
 
     return res.status(200).json({ ok: true, id: submission.id });
   } catch (error) {
