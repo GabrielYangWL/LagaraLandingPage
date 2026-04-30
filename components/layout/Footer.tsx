@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mail } from "lucide-react";
+import { useLocale } from "@/contexts/LocaleContext";
 
 function LinkedinIcon({ className }: { className?: string }) {
   return (
@@ -11,14 +12,15 @@ function LinkedinIcon({ className }: { className?: string }) {
   );
 }
 
-const footerLinks = [
-  { label: "Services", href: "/services" },
-  { label: "Approach", href: "/#approach" },
-  { label: "Why Us", href: "/#differentiators" },
-  { label: "Contact", href: "/#contact" },
-] as const;
+const footerHrefKeys = [
+  { href: "/services", navKey: "services" as const },
+  { href: "/#approach", navKey: "approach" as const },
+  { href: "/#differentiators", navKey: "whyUs" as const },
+  { href: "/#contact", navKey: "contact" as const },
+];
 
 export default function Footer() {
+  const { copy } = useLocale();
   return (
     <footer className="bg-charcoal">
       <div className="content-container px-6 py-14">
@@ -26,7 +28,7 @@ export default function Footer() {
           {/* Left: wordmark + descriptor + contact */}
           <div>
             <p className="text-white font-semibold text-lg tracking-tight">Lagara Partners</p>
-            <p className="text-grey-text text-sm mt-1">Enterprise AI Adoption and Change Management</p>
+            <p className="text-grey-text text-sm mt-1">{copy.footer.tagline}</p>
             <a
               href="mailto:hello@lagarapartners.com"
               className="text-muted-blue hover:text-teal text-sm mt-4 inline-flex items-center gap-2 transition-colors focus-visible:ring-2 focus-visible:ring-muted-blue rounded"
@@ -37,25 +39,25 @@ export default function Footer() {
             <div className="mt-4">
               <a
                 href="#"
-                aria-label="Lagara Partners on LinkedIn"
+                aria-label={`Lagara Partners ${copy.footer.linkedIn}`}
                 className="text-white/50 hover:text-muted-blue transition-colors inline-flex items-center gap-2 text-sm focus-visible:ring-2 focus-visible:ring-muted-blue rounded"
               >
                 <LinkedinIcon className="w-5 h-5" />
-                <span className="text-white/40 text-xs">LinkedIn</span>
+                <span className="text-white/40 text-xs">{copy.footer.linkedIn}</span>
               </a>
             </div>
           </div>
 
           {/* Right: nav links */}
-          <nav aria-label="Footer navigation">
+          <nav aria-label={copy.footer.footerNavLabel}>
             <ul className="flex flex-col gap-3">
-              {footerLinks.map((link) => (
+              {footerHrefKeys.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
                     className="text-white/60 hover:text-white text-sm transition-colors focus-visible:ring-2 focus-visible:ring-muted-blue rounded px-1"
                   >
-                    {link.label}
+                    {copy.nav[link.navKey]}
                   </Link>
                 </li>
               ))}
@@ -64,8 +66,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between text-white/30 text-xs gap-2">
-          <span>© 2025 Lagara Partners. All rights reserved.</span>
-          <span>Enterprise AI Adoption and Change Management</span>
+          <span>{copy.footer.copyright}</span>
+          <span>{copy.footer.tagline}</span>
         </div>
       </div>
     </footer>

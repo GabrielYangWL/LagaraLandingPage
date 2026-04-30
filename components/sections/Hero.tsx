@@ -1,9 +1,10 @@
 import TrustStrip from "./TrustStrip";
 import FadeIn from "@/components/ui/FadeIn";
 import SectionTestimonial from "@/components/ui/SectionTestimonial";
-import { testimonialsBySection } from "@/data/testimonials";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export default function Hero() {
+  const { copy } = useLocale();
   const handleCTAClick = (href: string) => {
     const id = href.replace("#", "");
     const el = document.getElementById(id);
@@ -18,21 +19,17 @@ export default function Hero() {
           <div>
             <FadeIn direction="up" delay={0}>
               <p className="text-muted-blue text-sm font-medium uppercase tracking-widest mb-5">
-                Enterprise AI Adoption
+                {copy.hero.eyebrow}
               </p>
             </FadeIn>
             <FadeIn direction="up" delay={100}>
               <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                Turn enterprise AI ambition into daily adoption
+                {copy.hero.h1}
               </h1>
             </FadeIn>
             <FadeIn direction="up" delay={200}>
-              <p className="text-white/70 text-lg leading-relaxed mb-5 max-w-xl">
-                Lagara Partners helps organisations close the gap between AI investment and AI adoption. We combine strategy, change management, and execution capability to make AI work in the real enterprise — not just in the proof of concept.
-              </p>
-              <p className="text-white/60 text-base leading-relaxed mb-8 max-w-xl">
-                Whether you are selecting your first enterprise copilot, scaling from a successful pilot, or resetting after uneven uptake, we focus on the operating model, sponsorship, and team-level habits that determine whether tools become part of how work is done.
-              </p>
+              <p className="text-white/70 text-lg leading-relaxed mb-5 max-w-xl">{copy.hero.p1}</p>
+              <p className="text-white/60 text-base leading-relaxed mb-8 max-w-xl">{copy.hero.p2}</p>
             </FadeIn>
             <FadeIn direction="up" delay={300}>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -41,14 +38,14 @@ export default function Hero() {
                   onClick={(e) => { e.preventDefault(); handleCTAClick("#contact"); }}
                   className="bg-muted-blue hover:bg-teal text-white px-7 py-3.5 rounded font-semibold transition-colors text-center focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
                 >
-                  Book a conversation
+                  {copy.hero.ctaContact}
                 </a>
                 <a
                   href="#services"
                   onClick={(e) => { e.preventDefault(); handleCTAClick("#services"); }}
                   className="border border-white/30 text-white hover:border-muted-blue hover:text-white px-7 py-3.5 rounded font-semibold transition-colors text-center focus-visible:ring-2 focus-visible:ring-muted-blue focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
                 >
-                  See our services
+                  {copy.hero.ctaServices}
                 </a>
               </div>
             </FadeIn>
@@ -109,7 +106,7 @@ export default function Hero() {
         </div>
 
         <FadeIn direction="up" delay={400} className="mt-16 md:mt-20">
-          <SectionTestimonial variant="on-dark" className="max-w-3xl" {...testimonialsBySection.hero} />
+          <SectionTestimonial variant="on-dark" className="max-w-3xl" {...copy.testimonials.hero} />
         </FadeIn>
 
         <TrustStrip />

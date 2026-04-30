@@ -2,19 +2,19 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import ProcessStepCard from "@/components/ui/ProcessStepCard";
 import FadeIn from "@/components/ui/FadeIn";
 import SectionTestimonial from "@/components/ui/SectionTestimonial";
-import { steps } from "@/data/process";
-import { testimonialsBySection } from "@/data/testimonials";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export default function Process() {
+  const { copy } = useLocale();
   return (
     <section id="approach" className="bg-off-white">
       <div className="content-container section-padding">
         <FadeIn direction="up">
           <SectionHeader
-            eyebrow="How we work"
-            heading="A structured path from assessment to embedded change"
+            eyebrow={copy.process.eyebrow}
+            heading={copy.process.heading}
             align="center"
-            subheading="Our process is deliberately simple on the surface so it can flex inside complex enterprises. Assess and define prevent you from scaling the wrong thing; mobilise and embed ensure the organisation — not just the project team — carries the change forward."
+            subheading={copy.process.sub}
           />
         </FadeIn>
 
@@ -27,9 +27,9 @@ export default function Process() {
             aria-hidden="true"
           />
           <div className="grid grid-cols-4 gap-8 relative">
-            {steps.map((step, i) => (
+            {copy.steps.map((step, i) => (
               <FadeIn key={step.number} delay={i * 120} direction="up">
-                <ProcessStepCard {...step} isLast={i === steps.length - 1} />
+                <ProcessStepCard {...step} isLast={i === copy.steps.length - 1} />
               </FadeIn>
             ))}
           </div>
@@ -43,15 +43,15 @@ export default function Process() {
             style={{ background: "#4A7CA5", opacity: 0.2 }}
             aria-hidden="true"
           />
-          {steps.map((step, i) => (
+          {copy.steps.map((step, i) => (
             <FadeIn key={step.number} delay={i * 100} direction="up">
-              <ProcessStepCard {...step} isLast={i === steps.length - 1} />
+              <ProcessStepCard {...step} isLast={i === copy.steps.length - 1} />
             </FadeIn>
           ))}
         </div>
 
         <FadeIn direction="up" delay={200} className="mt-16 max-w-3xl mx-auto">
-          <SectionTestimonial variant="on-light" {...testimonialsBySection.process} />
+          <SectionTestimonial variant="on-light" {...copy.testimonials.process} />
         </FadeIn>
       </div>
     </section>

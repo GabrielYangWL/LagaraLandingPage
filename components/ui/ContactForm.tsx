@@ -1,5 +1,6 @@
 import { useState } from "react";
 import clsx from "clsx";
+import { useLocale } from "@/contexts/LocaleContext";
 
 interface FormState {
   name: string;
@@ -11,9 +12,9 @@ interface FormState {
 const inputClass =
   "w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-muted-blue transition-colors text-sm focus-visible:ring-2 focus-visible:ring-muted-blue";
 
-const labelClass = "text-white/70 text-sm font-medium mb-1.5 block";
-
 export default function ContactForm() {
+  const { copy } = useLocale();
+  const f = copy.form;
   const [form, setForm] = useState<FormState>({
     name: "",
     email: "",
@@ -25,7 +26,7 @@ export default function ContactForm() {
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -47,14 +48,12 @@ export default function ContactForm() {
       const data = (await response.json()) as { ok: boolean; error?: string };
 
       if (!response.ok || !data.ok) {
-        throw new Error(data.error ?? "Failed to send message.");
+        throw new Error(data.error ?? "fail");
       }
 
       setSubmitted(true);
-    } catch (submitError) {
-      setError(
-        submitError instanceof Error ? submitError.message : "Something went wrong.",
-      );
+    } catch {
+      setError(f.errorSubmit);
     } finally {
       setIsSubmitting(false);
     }
@@ -63,8 +62,8 @@ export default function ContactForm() {
   if (submitted) {
     return (
       <div className="bg-white/5 border border-white/20 rounded-xl p-10 text-center">
-        <p className="text-teal text-lg font-semibold mb-2">Thank you for getting in touch.</p>
-        <p className="text-white/60 text-sm">We will be in touch shortly.</p>
+        <p className="text-teal text-lg font-semibold mb-2">{f.thankYou}</p>
+        <p className="text-white/60 text-sm">{f.thankYouSub}</p>
       </div>
     );
   }
@@ -72,13 +71,13 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      aria-label="Contact Lagara Partners"
+      aria-label={f.ariaLabel}
       className="space-y-5"
       noValidate
     >
       <div>
-        <label htmlFor="name" className={labelClass}>
-          Name <span aria-hidden="true">*</span>
+        <label htmlFor="name" className="text-white/70 text-sm font-medium mb-1.5 block">
+          {f.name} <span aria-hidden="true">*</span>
         </label>
         <input
           id="name"
@@ -88,14 +87,14 @@ export default function ContactForm() {
           aria-required="true"
           value={form.name}
           onChange={handleChange}
-          placeholder="Your name"
+          placeholder={f.placeholders.name}
           className={inputClass}
         />
       </div>
 
       <div>
-        <label htmlFor="email" className={labelClass}>
-          Work email <span aria-hidden="true">*</span>
+        <label htmlFor="email" className="text-white/70 text-sm font-medium mb-1.5 block">
+          {f.email} <span aria-hidden="true">*</span>
         </label>
         <input
           id="email"
@@ -105,14 +104,14 @@ export default function ContactForm() {
           aria-required="true"
           value={form.email}
           onChange={handleChange}
-          placeholder="you@company.com"
+          placeholder={f.placeholders.email}
           className={inputClass}
         />
       </div>
 
       <div>
-        <label htmlFor="company" className={labelClass}>
-          Company <span aria-hidden="true">*</span>
+        <label htmlFor="company" className="text-white/70 text-sm font-medium mb-1.5 block">
+          {f.company} <span aria-hidden="true">*</span>
         </label>
         <input
           id="company"
@@ -122,14 +121,14 @@ export default function ContactForm() {
           aria-required="true"
           value={form.company}
           onChange={handleChange}
-          placeholder="Organisation name"
+          placeholder={f.placeholders.company}
           className={inputClass}
         />
       </div>
 
       <div>
-        <label htmlFor="message" className={labelClass}>
-          Message
+        <label htmlFor="message" className="text-white/70 text-sm font-medium mb-1.5 block">
+          {f.message}
         </label>
         <textarea
           id="message"
@@ -137,7 +136,7 @@ export default function ContactForm() {
           rows={4}
           value={form.message}
           onChange={handleChange}
-          placeholder="Tell us about your AI adoption challenge"
+          placeholder={f.placeholders.message}
           className={clsx(inputClass, "resize-none")}
         />
       </div>
@@ -147,7 +146,7 @@ export default function ContactForm() {
         disabled={isSubmitting}
         className="w-full bg-muted-blue hover:bg-teal text-white py-3.5 rounded-lg font-semibold text-sm transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
       >
-        {isSubmitting ? "Sending..." : "Send message"}
+        {isSubmitting ? f.sending : f.submit}
       </button>
       {error && (
         <p role="alert" className="text-red-200 text-sm">

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { LocaleProvider } from "@/contexts/LocaleContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
@@ -25,9 +26,9 @@ function ScrollToHashAfterRoute() {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <LocaleProvider>
       <ScrollToHashAfterRoute />
       <Component {...pageProps} />
-    </>
+    </LocaleProvider>
   );
 }

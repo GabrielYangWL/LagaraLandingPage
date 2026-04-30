@@ -1,7 +1,9 @@
 import Link from "next/link";
-import type { Service } from "@/data/services";
+import type { Service } from "@/data/service-types";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export default function ServiceCard({ slug, title, description, bullets }: Service) {
+  const { copy } = useLocale();
   return (
     <Link
       href={`/services/${slug}`}
@@ -26,7 +28,7 @@ export default function ServiceCard({ slug, title, description, bullets }: Servi
         ))}
       </ul>
       <p className="mt-5 text-sm font-medium text-muted-blue group-hover:text-teal transition-colors">
-        Learn more →
+        {copy.services.learnMore}
       </p>
     </Link>
   );

@@ -51,15 +51,6 @@ export default function SectionTestimonial({
         <span className="font-semibold text-inherit">{author}</span>
         <span className="text-inherit"> — {role}, {company}</span>
       </figcaption>
-      <p
-        className={clsx(
-          "mt-3 text-xs",
-          variant === "on-dark" && "text-white/35",
-          variant === "on-light" && "text-grey-text/80",
-        )}
-      >
-        Illustrative client voice — names and organisations are fictional.
-      </p>
     </figure>
   );
 }

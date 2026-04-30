@@ -1,11 +1,13 @@
 import Link from "next/link";
-import type { Service } from "@/data/services";
+import type { Service } from "@/data/service-types";
+import { useLocale } from "@/contexts/LocaleContext";
 
 interface ServiceHighlightProps {
   service: Pick<Service, "slug" | "title" | "description">;
 }
 
 export default function ServiceHighlight({ service }: ServiceHighlightProps) {
+  const { copy } = useLocale();
   return (
     <Link
       href={`/services/${service.slug}`}
@@ -19,7 +21,7 @@ export default function ServiceHighlight({ service }: ServiceHighlightProps) {
         {service.description}
       </p>
       <p className="mt-4 text-sm font-medium text-muted-blue group-hover:text-teal transition-colors">
-        Read more →
+        {copy.services.readMore}
       </p>
     </Link>
   );
